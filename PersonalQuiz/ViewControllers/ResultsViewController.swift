@@ -12,7 +12,7 @@ class ResultsViewController: UIViewController {
     // 1. Передать сюда массив с ответами +
     // 2. Определить наиболее часто встречающийся тип животного +
     // 3. Отобразить результат в соответсвии с этим животным +
-    // 4. Избавиться от кнопки возврата назад на экране результатов
+    // 4. Избавиться от кнопки возврата назад на экране результатов +
     
     @IBOutlet weak var resultEmojiLabel: UILabel!
     @IBOutlet weak var resultTextLabel: UILabel!
@@ -24,6 +24,8 @@ class ResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.setHidesBackButton(true, animated: false)
         
         for answer in userAnswers {
             print(answer)
@@ -66,8 +68,8 @@ class ResultsViewController: UIViewController {
         }
     }
     private func showTitleAndDefenition() {
+        // сделать функцию
         
-        for _ in userAnswers {
         if userAnswersResult == "dog" {
             correctAnimal = Answer(title: "dog", type: .dog)
             resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
@@ -89,4 +91,4 @@ class ResultsViewController: UIViewController {
 
 
 }
-}
+
