@@ -9,86 +9,80 @@ import UIKit
 
 class ResultsViewController: UIViewController {
     
-    // 1. Передать сюда массив с ответами +
-    // 2. Определить наиболее часто встречающийся тип животного +
-    // 3. Отобразить результат в соответсвии с этим животным +
-    // 4. Избавиться от кнопки возврата назад на экране результатов +
-    
     @IBOutlet weak var resultEmojiLabel: UILabel!
     @IBOutlet weak var resultTextLabel: UILabel!
-  
+    
     var userAnswers: [Answer]!
- 
-    private var userAnswersResult = ""
+    
+    private var userAnswersResult: String? 
     private var correctAnimal: Answer?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.setHidesBackButton(true, animated: false)
         
-        for answer in userAnswers {
-            print(answer)
-        }
-        
         answerTypeCounter()
-        print(userAnswersResult)
         
         showTitleAndDefenition()
-   
+        
     }
     
     private func answerTypeCounter() {
-       
-        var animalCounter = ["dog": 0, "cat": 0, "rabbit": 0, "turtle": 0]
-        var dog = 0, cat = 0, rabbit = 0, turtle = 0
+        
+        var answersCounter = ["dog": 0, "cat": 0, "rabbit": 0, "turtle": 0]
+        
+        var answerDog = 0,
+            answerCat = 0,
+            answerRabbit = 0,
+            answerTurtle = 0
         
         for answer in userAnswers {
             switch answer.type {
             case .dog:
-                dog += 1
-                animalCounter.updateValue(dog, forKey: "dog")
+                answerDog += 1
+                answersCounter.updateValue(answerDog, forKey: "dog")
             case .cat:
-                cat += 1
-                animalCounter.updateValue(cat, forKey: "cat")
+                answerCat += 1
+                answersCounter.updateValue(answerCat, forKey: "cat")
             case .rabbit:
-                rabbit += 1
-                animalCounter.updateValue(rabbit, forKey: "rabbit")
+                answerRabbit += 1
+                answersCounter.updateValue(answerRabbit, forKey: "rabbit")
             default:
-                turtle += 1
-                animalCounter.updateValue(turtle, forKey: "turtle")
+                answerTurtle += 1
+                answersCounter.updateValue(answerTurtle, forKey: "turtle")
             }
         }
-        let maximumValue = animalCounter.values.sorted().last!
+        let maximumValueAnswers = answersCounter.values.sorted().last!
         
-        for (animal, count) in animalCounter {
-            if count == maximumValue {
+        for (animal, count) in answersCounter {
+            if count == maximumValueAnswers {
                 userAnswersResult = animal
             }
         }
     }
     private func showTitleAndDefenition() {
-        // сделать функцию
         
         if userAnswersResult == "dog" {
-            correctAnimal = Answer(title: "dog", type: .dog)
-            resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
-            resultTextLabel.text = correctAnimal?.type.definition
+            sendParametersToView(title: "dog", type: .dog)
+            
         }  else if userAnswersResult == "cat" {
-            correctAnimal = Answer(title: "cat", type: .cat)
-            resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
-            resultTextLabel.text = correctAnimal?.type.definition
+            sendParametersToView(title: "cat", type: .cat)
+            
         } else if userAnswersResult == "rabbit" {
-            correctAnimal = Answer(title: "rabbit", type: .rabbit)
-            resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
-            resultTextLabel.text = correctAnimal?.type.definition
+            sendParametersToView(title: "rabbit", type: .rabbit)
+            
         } else if userAnswersResult == "turtle" {
-            correctAnimal = Answer(title: "turtle", type: .turtle)
-            resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
-            resultTextLabel.text = correctAnimal?.type.definition
+            sendParametersToView(title: "turtle", type: .turtle)
         }
     }
-
-
+    
+    private func sendParametersToView(title: String, type: AnimalType) {
+        correctAnimal = Answer(title: title, type: type)
+        resultEmojiLabel.text = "Вы - \(String((correctAnimal?.type.rawValue)!))"
+        resultTextLabel.text = correctAnimal?.type.definition
+    }
+    
+    
 }
 
